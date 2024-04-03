@@ -3,6 +3,8 @@ import styles from "./Login.module.scss";
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
 
 const LoginView = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -42,44 +44,37 @@ const LoginView = () => {
             {error && <p className={styles.login__error}>{error}</p>}
             <div className={styles.login__form}>
                 <form onSubmit={handleSubmit}>
-                    <div className={styles.login__form__item}>
-                        <label htmlFor="email">Email</label>
-                        <input
-                            className={styles.login__form__item__input}
-                            type="email"
-                            id="email"
-                            name="email"
-                        />
-                    </div>
-                    <div className={styles.login__form__item}>
-                        <label htmlFor="password">password</label>
-                        <input
-                            className={styles.login__form__item__input}
-                            type="password"
-                            id="password"
-                            name="password"
-                        />
-                    </div>
-                    <button type="submit" className={styles.login__form__button}>
+                    <Input
+                        label="Email"
+                        type="email"
+                        name="email"
+                    />
+                    <Input
+                        label="Password"
+                        type="password"
+                        name="password"
+                    />
+                    <Button type="submit" variant="primary" className={styles.login__form__button}>
                         {isLoading ? "Loading..." : "Login"}
-                    </button>
+                    </Button>
                 </form>
                 <hr className={styles.login__form__divider} />
                 <div className={styles.login__form__other}>
-                    <button
+                    <Button
                         type="button"
-                        onClick={() => signIn('google', { callbackUrl, redirect: false })}
+                        variant="primary"
                         className={styles.login__form__other__button}
+                        onClick={() => signIn("google", { callbackUrl, redirect: false })}
                     >
                         <i className="bx bxl-google" /> Login with Google
-                    </button>
+                    </Button>
                 </div>
             </div>
             <p className={styles.login__link}>
                 Don{"'"}t have an account? Sign up{" "}
                 <Link href="/auth/register">here</Link>
             </p>
-        </div >
+        </div>
     );
 };
 
