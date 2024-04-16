@@ -1,0 +1,43 @@
+.users {
+  &__table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    margin-top: 40px;
+    th,
+    td {
+      text-align: left;
+      padding: 8px;
+    }
+    thead {
+      tr {
+        background-color: #f2f2f2;
+      }
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    &__action {
+      display: flex;
+      gap: 10px;
+    }
+    // Responsive Table
+    @media only screen and (min-width: 768px) {
+      th,
+      td {
+        padding: 4px; // Decrease padding on smaller screens
+      }
+      &__action {
+        flex-wrap: wrap; // Wrap action buttons on smaller screens
+        gap: 5px; // Reduce gap between action buttons
+        &__button {
+          padding: 10px;
+          i {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+}
