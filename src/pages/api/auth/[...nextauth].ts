@@ -4,6 +4,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { loginWithGoogle, signIn } from "@/services/auth/services";
 import { compare } from "bcrypt";
+import jwt from "jsonwebtoken";
+
 const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
@@ -77,6 +79,12 @@ const authOptions: NextAuthOptions = {
       if ("role" in token) {
         session.user.role = token.role;
       }
+
+      // authorization api sebelum login
+      const accessToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || "", {
+        algorithm: "HS256",
+      });
+      session.accessToken = accessToken;
 
       return session;
     },
