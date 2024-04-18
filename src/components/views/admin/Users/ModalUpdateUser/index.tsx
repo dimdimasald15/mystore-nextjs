@@ -3,25 +3,29 @@ import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import Select from "@/components/ui/Select";
 import userServices from "@/services/user";
-import { FormEvent, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { useSession } from "next-auth/react"
+import { User } from "@/types/user.type";
 
-type PropType = {
-    updatedUser: any;
-    setUpdatedUser: any;
-    setUsersData: any;
+type PropTypes = {
+    updatedUser: User | any;
+    setUpdatedUser: Dispatch<SetStateAction<{}>>;
+    setUsersData: Dispatch<SetStateAction<User[]>>;
+    setToaster: Dispatch<SetStateAction<{}>>
+    session: any;
 }
-const ModalUpdateUser = (props: PropType) => {
-    const { updatedUser, setUpdatedUser, setUsersData } = props
+const ModalUpdateUser = (props: PropTypes) => {
+    const { updatedUser, setUpdatedUser, setUsersData, setToaster, session } = props
     const [isLoading, setIsLoading] = useState(false);
-    const session: any = useSession();
 
     const handleUpdateUser = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setIsLoading(true);
         const form: any = event.target as HTMLFormElement;
+        const fullname = form.fullname.value;
+        const role = form.role.value;
         const data = {
-            role: form.role.value,
+            role: role
         };
 
         const result = await userServices.updateUser(updatedUser.id, data, session.data?.accessToken);
@@ -31,8 +35,16 @@ const ModalUpdateUser = (props: PropType) => {
             setUpdatedUser({});
             const { data } = await userServices.getAllUsers();
             setUsersData(data.data);
+            setToaster({
+                variant: 'success',
+                message: `${fullname} role's updated to ${role}`
+            })
         } else {
             setIsLoading(false);
+            setToaster({
+                variant: 'danger',
+                message: `${fullname} role's update failed`
+            })
         }
     };
     return (
@@ -47,7 +59,9 @@ const ModalUpdateUser = (props: PropType) => {
                         { label: "Member", value: "member" },
                         { label: "Admin", value: "admin" },
                     ]} />
-                    <Button type="submit" variant="primary">Update</Button>
+                    <Button type="submit" variant="primary">
+                        {isLoading ? "Updating..." : "Update"}
+                    </Button>
                 </form>
 
             </Modal>

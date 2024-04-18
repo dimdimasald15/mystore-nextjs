@@ -14,14 +14,11 @@
     padding: 20px;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
     margin-bottom: 20px;
+    border-radius: 8px;
   }
   &__link {
     a {
       color: #23bebe;
     }
-  }
-  &__error {
-    color: #fd3131;
-    margin-bottom: 10px;
   }
 }

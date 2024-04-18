@@ -11,6 +11,16 @@ const userServices = {
         headers: {
             'Authorization': `Bearer ${token}`
         }
+    }),
+    getProfile: (token: string) => instance.get(`/api/user/profile`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }),
+    updateProfile: (data: any, token: string) => instance.put(`/api/user/profile`, { data }, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
     })
 }
 

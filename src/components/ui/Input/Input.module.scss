@@ -3,10 +3,33 @@
   flex-direction: column;
   margin: 20px 0;
   &__input {
-    padding: 15px;
-    background-color: #eee;
+    padding: 10px;
     margin-top: 5px;
-    border: none;
-    outline: none;
+    text-indent: 5px;
+    font-size: 12pt;
+    border-radius: 5px;
+    border: solid 1.5px #d3d3d3;
+    -webkit-transition: 1s;
+    transition: 1s;
+    &:disabled {
+      background-color: #eee;
+      opacity: 0.8;
+    }
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+
+  input:hover {
+    box-shadow: 0 0 5pt 0.5pt #d3d3d3;
+  }
+  input:focus {
+    box-shadow: 0 0 5pt 2pt #d3d3d3;
+    outline-width: 0px;
   }
 }

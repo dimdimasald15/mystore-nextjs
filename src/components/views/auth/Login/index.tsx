@@ -1,21 +1,22 @@
 import Link from "next/link";
 import styles from "./Login.module.scss";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AuthLayout from "@/components/layouts/AuthLayout";
 
-const LoginView = () => {
+type Proptypes = {
+    setToaster: Dispatch<SetStateAction<{}>>
+};
+const LoginView = ({ setToaster }: Proptypes) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState("");
     const { push, query } = useRouter();
     const callbackUrl: any = query.callbackUrl || "/";
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setIsLoading(true);
-        setError("");
         const form = event.target as HTMLFormElement;
         try {
             const res = await signIn("credentials", {
@@ -29,20 +30,29 @@ const LoginView = () => {
                 setIsLoading(false);
                 form.reset();
                 push(callbackUrl);
+                setToaster({
+                    variant: 'success',
+                    message: `Login successfully`
+                })
             } else {
                 setIsLoading(false);
-                setError("Email or password is incorrect");
+                setToaster({
+                    variant: 'danger',
+                    message: `Email or password is incorrect`
+                })
             }
         } catch (error) {
             setIsLoading(false);
-            setError("Email or password is incorrect");
+            setToaster({
+                variant: 'danger',
+                message: `Login failed, please call support`
+            })
         }
     };
 
     return (
         <AuthLayout
             title="Login"
-            error={error}
             linkText="Don't have an account? Sign up "
             link="/auth/register"
         >

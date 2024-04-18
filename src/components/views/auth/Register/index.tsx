@@ -1,20 +1,21 @@
 import Link from "next/link";
 import styles from "./Register.module.scss";
 import { useRouter } from "next/router";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, Dispatch, SetStateAction } from "react";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import authServices from "@/services/auth";
 import AuthLayout from "@/components/layouts/AuthLayout";
 
-const RegisterView = () => {
+type Propstypes = {
+    setToaster: Dispatch<SetStateAction<{}>>
+};
+const RegisterView = ({ setToaster }: Propstypes) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState("");
     const { push } = useRouter();
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setIsLoading(true);
-        setError("");
         const form = event.target as HTMLFormElement;
         const data = {
             email: form.email.value,
@@ -23,23 +24,36 @@ const RegisterView = () => {
             password: form.password.value,
         };
 
-        const result = await authServices.registerAccount(data);
 
-        if (result.status === 200) {
-            form.reset();
-            push("/auth/login");
+        try {
+            const result = await authServices.registerAccount(data);
+            if (result.status === 200) {
+                form.reset();
+                setIsLoading(false);
+                push("/auth/login");
+                setToaster({
+                    variant: 'success',
+                    message: `Success register account`
+                })
+            } else {
+                setIsLoading(false);
+                setToaster({
+                    variant: 'danger',
+                    message: `Register Failed, please call support`
+                })
+            }
+        } catch (error) {
             setIsLoading(false);
-        } else {
-            setIsLoading(false);
-            setError("Email is already registered");
-            console.log("error");
+            setToaster({
+                variant: 'danger',
+                message: `Register failed, email is already exist`
+            })
         }
     };
 
     return (
         <AuthLayout
             title="Registration"
-            error={error}
             linkText="Have an account? Sign in "
             link="/auth/login"
         >

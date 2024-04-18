@@ -1,12 +1,12 @@
 import { Children, Dispatch, useEffect, useRef } from "react";
 import styles from "./Modal.module.scss";
 
-type PropType = {
+type PropTypes = {
     children: React.ReactNode;
     onClose: any;
 }
 
-const Modal = (props: PropType) => {
+const Modal = (props: PropTypes) => {
     const { children, onClose } = props;
     const ref: any = useRef();
     useEffect(() => {

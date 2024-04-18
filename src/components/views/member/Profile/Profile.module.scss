@@ -1,0 +1,78 @@
+.profile {
+  &__title {
+    font-size: 32px;
+  }
+  &__main {
+    &__row {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+      &__avatar {
+        width: 25%;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 20px;
+        &__image {
+          border-radius: 50%;
+          width: 200px;
+          height: 200px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #eee;
+          font-size: 5rem;
+          font-weight: bold;
+          color: #646464;
+        }
+        &__label {
+          margin-top: 20px;
+          background-color: #eee;
+          float: left;
+          width: 100%;
+          margin-bottom: 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          gap: 20px;
+          padding: 20px;
+          cursor: pointer;
+          border-radius: 8px;
+        }
+        &__input {
+          position: absolute;
+          opacity: 0;
+          z-index: -1;
+        }
+        &__button {
+          margin-top: 20px;
+          width: 100%;
+        }
+        &__title {
+          margin-bottom: 20px;
+        }
+      }
+      &__profile {
+        width: 50%;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        padding: 20px 20px;
+        border-radius: 8px;
+      }
+      &__password {
+        width: 25%;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        padding: 20px 20px;
+        border-radius: 8px;
+        &__button {
+          margin-top: 20px;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
