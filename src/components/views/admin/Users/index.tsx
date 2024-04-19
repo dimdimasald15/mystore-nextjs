@@ -4,7 +4,6 @@ import AdminLayout from "@/components/layouts/AdminLayout";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalDeleteUser from "./ModalDeleteUser";
-import userServices from "@/services/user";
 import { User } from "@/types/user.type";
 import { useSession } from "next-auth/react";
 
@@ -42,7 +41,7 @@ const UsersAdminView = (props: PropTypes) => {
                         </thead>
                         <tbody>
                             {usersData.map((user: User, index: number) => (
-                                <tr key={index}>
+                                <tr key={user.id}>
                                     <td>{index + 1}</td>
                                     <td>{user.fullname}</td>
                                     <td>{user.email}</td>

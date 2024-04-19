@@ -1,0 +1,25 @@
+.products {
+  &__table {
+    width: 100%;
+    // border-spacing: 0;
+    // border-collapse: collapse;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 40px;
+    th,
+    td {
+      text-align: center;
+      padding: 8px;
+    }
+    thead {
+      tr {
+        background-color: #f2f2f2;
+      }
+    }
+    &__action {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+  }
+}
