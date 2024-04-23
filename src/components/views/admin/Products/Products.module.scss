@@ -1,4 +1,13 @@
 .products {
+  &__btnAdd {
+    margin-top: 40px;
+    padding: 15px 20px;
+    i {
+      font-size: 24px;
+      margin-right: 5px;
+      font-weight: bold;
+    }
+  }
   &__table {
     width: 100%;
     // border-spacing: 0;

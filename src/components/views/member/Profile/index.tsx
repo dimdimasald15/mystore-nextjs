@@ -19,7 +19,7 @@ type PropTypes = {
 const ProfileMemberView = (props: PropTypes) => {
     const { profile, setProfile, session, setToaster } = props;
     const [isLoading, setIsLoading] = useState("");
-    const [changeImage, setChangeImage] = useState<File | any>({});
+    const [uploadedImage, setUploadedImage] = useState<File | any>({});
 
     const handleChangeProfile = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -87,10 +87,13 @@ const ProfileMemberView = (props: PropTypes) => {
         setIsLoading("picture");
         const form = e.target as HTMLFormElement;
         const file = form.image.files[0];
+        const newName = "profile." + file.name.split(".")[1];
         if (file) {
             uploadFile(
                 profile.id,
                 file,
+                newName,
+                "users",
                 async (status: boolean, newImageURL: string) => {
                     if (status) {
                         const data = {
@@ -104,7 +107,7 @@ const ProfileMemberView = (props: PropTypes) => {
                         if (result.status === 200) {
                             setIsLoading("");
                             setProfile({ ...profile, image: newImageURL });
-                            setChangeImage({});
+                            setUploadedImage({});
                             form.reset();
                             setToaster({
                                 variant: "success",
@@ -115,7 +118,7 @@ const ProfileMemberView = (props: PropTypes) => {
                         }
                     } else {
                         setIsLoading("");
-                        setChangeImage({});
+                        setUploadedImage({});
                         setToaster({
                             variant: "danger",
                             message: "Failed change avatar",
@@ -153,8 +156,8 @@ const ProfileMemberView = (props: PropTypes) => {
                                     className={styles.profile__main__row__avatar__label}
                                     htmlFor="uploadImage"
                                 >
-                                    {changeImage.name ? (
-                                        <p>{changeImage.name}</p>
+                                    {uploadedImage.name ? (
+                                        <p>{uploadedImage.name}</p>
                                     ) : (
                                         <>
                                             <p>
@@ -174,7 +177,7 @@ const ProfileMemberView = (props: PropTypes) => {
                                     id="uploadImage"
                                     onChange={(e: any) => {
                                         e.preventDefault();
-                                        setChangeImage(e.currentTarget.files[0]);
+                                        setUploadedImage(e.currentTarget.files[0]);
                                     }}
                                 />
                                 <Button

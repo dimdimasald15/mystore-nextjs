@@ -5,6 +5,10 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Image from "next/image";
 import { Product } from "@/types/product.type";
 import { convertIDR } from "@/utils/currency";
+import ModalAddProduct from "./ModalAddProduct";
+import { useSession } from "next-auth/react";
+import ModalUpdateProduct from "./ModalUpdateProduct";
+import ModalDeleteProduct from "./ModalDeleteProduct";
 
 type PropTypes = {
     products: Product[];
@@ -14,6 +18,10 @@ type PropTypes = {
 const ProductsAdminView = (props: PropTypes) => {
     const { products, setToaster } = props;
     const [productsData, setProductsData] = useState<Product[]>([]);
+    const [addProduct, setAddProduct] = useState(false);
+    const [updatedProduct, setUpdatedProduct] = useState<Product | {}>({});
+    const [deletedProduct, setDeletedProduct] = useState<Product | {}>({});
+    const session: any = useSession();
 
     useEffect(() => {
         setProductsData(products);
@@ -24,6 +32,14 @@ const ProductsAdminView = (props: PropTypes) => {
             <AdminLayout>
                 <div className={styles.products}>
                     <h1>Products Management</h1>
+                    <Button
+                        type="button"
+                        variant="primary"
+                        className={styles.products__btnAdd}
+                        onClick={() => setAddProduct(true)}
+                    >
+                        <i className="bx bx-plus" /> Add Product
+                    </Button>
                     <table className={styles.products__table}>
                         <thead>
                             <tr>
@@ -64,14 +80,14 @@ const ProductsAdminView = (props: PropTypes) => {
                                                 <Button
                                                     type="button"
                                                     variant="warning"
-                                                    // onClick={() => setUpdatedUser(user)}
+                                                    onClick={() => setUpdatedProduct(product)}
                                                     className={styles.products__table__action__button}
                                                 >
                                                     <i className="bx bx-edit"></i>
                                                 </Button>
                                                 <Button type="button" variant="danger"
                                                     className={styles.products__table__action__button}
-                                                // onClick={() => setDeletedUser(user)}
+                                                    onClick={() => setDeletedProduct(product)}
                                                 >
                                                     <i className="bx bx-trash"></i>
                                                 </Button>
@@ -94,24 +110,32 @@ const ProductsAdminView = (props: PropTypes) => {
                     </table>
                 </div>
             </AdminLayout >
-            {/* {Object.keys(updatedUser).length && (
-                <ModalUpdateUser
-                    updatedUser={updatedUser}
-                    setUpdatedUser={setUpdatedUser}
-                    setUsersData={setUsersData}
+            {addProduct &&
+                <ModalAddProduct
+                    setProductsData={setProductsData}
+                    setAddProduct={setAddProduct}
+                    setToaster={setToaster}
+                    session={session}
+                />
+            }
+            {Object.keys(updatedProduct).length && (
+                <ModalUpdateProduct
+                    updatedProduct={updatedProduct}
+                    setUpdatedProduct={setUpdatedProduct}
+                    setProductsData={setProductsData}
                     setToaster={setToaster}
                     session={session}
                 />
             )}
-            {Object.keys(deletedUser).length && (
-                <ModalDeleteUser
-                    deletedUser={deletedUser}
-                    setDeletedUser={setDeletedUser}
-                    setUsersData={setUsersData}
+            {Object.keys(deletedProduct).length && (
+                <ModalDeleteProduct
+                    deletedProduct={deletedProduct}
+                    setDeletedProduct={setDeletedProduct}
+                    setProductsData={setProductsData}
                     setToaster={setToaster}
                     session={session}
                 />
-            )} */}
+            )}
         </div >
     );
 };
