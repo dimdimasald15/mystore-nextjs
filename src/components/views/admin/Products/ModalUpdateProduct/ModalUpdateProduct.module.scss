@@ -33,4 +33,12 @@
       border-radius: 5px;
     }
   }
+  &__input {
+    input {
+      margin: 5px 0px 20px 0px;
+    }
+  }
+  &__select {
+    margin: 5px 0px 20px 0px;
+  }
 }

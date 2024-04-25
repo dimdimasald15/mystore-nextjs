@@ -15,7 +15,6 @@ type PropTypes = {
     setProductsData: Dispatch<SetStateAction<Product[]>>;
     setUpdatedProduct: Dispatch<SetStateAction<boolean>>;
     setToaster: Dispatch<SetStateAction<{}>>;
-    session: any;
 };
 
 const ModalUpdateProduct = (props: PropTypes) => {
@@ -24,7 +23,6 @@ const ModalUpdateProduct = (props: PropTypes) => {
         setUpdatedProduct,
         setProductsData,
         updatedProduct,
-        session,
     } = props;
     const [isLoading, setIsLoading] = useState(false);
     const [stockCount, setStockCount] = useState(updatedProduct.stock);
@@ -44,14 +42,14 @@ const ModalUpdateProduct = (props: PropTypes) => {
             image: newImageURL,
             name: form.name.value,
             price: form.price.value,
+            description: form.description.value,
             category: form.category.value,
             status: form.status.value,
             stock: stockCount,
         };
         const result = await productServices.updateProduct(
             updatedProduct.id,
-            data,
-            session.data?.accessToken
+            data
         );
         if (result.status === 200) {
             setIsLoading(false);
@@ -107,6 +105,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
                 <h1>Update Product</h1>
                 <form onSubmit={handleSubmit} className={styles.form}>
                     <Input
+                        className={styles.form__input}
                         label="Name"
                         type="name"
                         name="name"
@@ -114,13 +113,23 @@ const ModalUpdateProduct = (props: PropTypes) => {
                         defaultValue={updatedProduct.name}
                     />
                     <Input
+                        className={styles.form__input}
                         label="Price"
                         type="number"
                         name="price"
                         placeholder="Insert product price"
                         defaultValue={updatedProduct.price}
                     />
+                    <Input
+                        className={styles.form__input}
+                        label="Description"
+                        type="text"
+                        name="description"
+                        placeholder="Insert product description"
+                        defaultValue={updatedProduct.description}
+                    />
                     <Select
+                        className={styles.form__select}
                         label="Category"
                         name="category"
                         options={[
@@ -130,6 +139,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
                         defaultValue={updatedProduct.category}
                     />
                     <Select
+                        className={styles.form__select}
                         label="Status"
                         name="status"
                         options={[
@@ -164,6 +174,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
                         <div className={styles.form__stock} key={i} >
                             <div className={styles.form__stock__item}>
                                 <Input
+                                    className={styles.form__input}
                                     label="Size"
                                     name="size"
                                     type="text"
@@ -176,6 +187,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
                             </div>
                             <div className={styles.form__stock__item}>
                                 <Input
+                                    className={styles.form__input}
                                     label="Qty"
                                     name="qty"
                                     type="text"
@@ -193,7 +205,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
                         className={styles.form__stock__button}
                         onClick={() => setStockCount([...stockCount, { size: "", qty: 0 }])}
                     >
-                        Update New Stock
+                        Add New Stock
                     </Button>
                     <Button type="submit" variant="primary" disabled={isLoading}>
                         {isLoading ? "Loading..." : "Update Product"}

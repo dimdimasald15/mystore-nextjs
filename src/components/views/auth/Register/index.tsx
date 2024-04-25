@@ -8,7 +8,7 @@ import authServices from "@/services/auth";
 import AuthLayout from "@/components/layouts/AuthLayout";
 
 type Propstypes = {
-    setToaster: Dispatch<SetStateAction<{}>>
+    setToaster: Dispatch<SetStateAction<{}>>;
 };
 const RegisterView = ({ setToaster }: Propstypes) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +24,6 @@ const RegisterView = ({ setToaster }: Propstypes) => {
             password: form.password.value,
         };
 
-
         try {
             const result = await authServices.registerAccount(data);
             if (result.status === 200) {
@@ -32,22 +31,22 @@ const RegisterView = ({ setToaster }: Propstypes) => {
                 setIsLoading(false);
                 push("/auth/login");
                 setToaster({
-                    variant: 'success',
-                    message: `Success register account`
-                })
+                    variant: "success",
+                    message: `Success register account`,
+                });
             } else {
                 setIsLoading(false);
                 setToaster({
-                    variant: 'danger',
-                    message: `Register Failed, please call support`
-                })
+                    variant: "danger",
+                    message: `Register Failed, please call support`,
+                });
             }
         } catch (error) {
             setIsLoading(false);
             setToaster({
-                variant: 'danger',
-                message: `Register failed, email is already exist`
-            })
+                variant: "danger",
+                message: `Register failed, email is already exist`,
+            });
         }
     };
 
@@ -58,10 +57,10 @@ const RegisterView = ({ setToaster }: Propstypes) => {
             link="/auth/login"
         >
             <form onSubmit={handleSubmit}>
-                <Input label="Email" type="email" name="email" />
-                <Input label="Fullname" type="text" name="fullname" />
-                <Input label="Phone" type="number" name="phone" />
-                <Input label="Password" type="password" name="password" />
+                <Input label="Email" type="email" name="email" className={styles.register__form__input} />
+                <Input label="Fullname" type="text" name="fullname" className={styles.register__form__input} />
+                <Input label="Phone" type="number" name="phone" className={styles.register__form__input} />
+                <Input label="Password" type="password" name="password" className={styles.register__form__input} />
                 <Button
                     type="submit"
                     variant="primary"

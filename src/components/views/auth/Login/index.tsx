@@ -62,11 +62,13 @@ const LoginView = ({ setToaster }: Proptypes) => {
                         label="Email"
                         type="email"
                         name="email"
+                        className={styles.login__form__input}
                     />
                     <Input
                         label="Password"
                         type="password"
                         name="password"
+                        className={styles.login__form__input}
                     />
                     <Button type="submit" variant="primary" className={styles.login__button}>
                         {isLoading ? "Loading..." : "Login"}

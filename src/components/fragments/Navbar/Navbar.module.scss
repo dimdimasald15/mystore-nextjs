@@ -1,13 +1,88 @@
 .navbar {
+  top: 0;
+  z-index: 1000;
+  position: absolute;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
   height: 80px;
-  background-color: #000;
-  color: #fff;
-  padding: 20px;
+  background-color: #fff;
+  color: #000;
+  padding: 20px 2.5vw;
   position: fix;
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 100%;
+    &__item {
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 500;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      &--active {
+        font-weight: 700;
+        border-bottom: 2px solid black;
+      }
+    }
+  }
+  &__user {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    &__cart {
+      i {
+        font-size: 24px;
+        cursor: pointer;
+      }
+    }
+    &__profile {
+      position: relative;
+      &__image {
+        border-radius: 50px;
+        aspect-ratio: 1/1;
+      }
+      i {
+        font-size: 32px;
+      }
+      &__dropdown {
+        background-color: #fff;
+        position: absolute;
+        box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
+        right: 0;
+        border-radius: 8px;
+        top: 50px;
+        display: none;
+        flex-direction: column;
+        &--active {
+          display: flex;
+          z-index: 1;
+        }
+        &__item {
+          width: 150px;
+          padding: 10px 20px;
+          text-align: left;
+          background-color: transparent;
+          border: none;
+          font-size: 16px;
+          color: #000;
+          cursor: pointer;
+          &:last-child {
+            border-radius: 0 0 8px 8px;
+          }
+          &:first-child {
+            border-radius: 8px 8px 0 0;
+          }
+          &:hover {
+            background-color: #eee;
+          }
+        }
+      }
+    }
+  }
   &__button {
     background-color: #fff;
     border: none;

@@ -1,7 +1,7 @@
 import Button from "@/components/ui/Button";
 import styles from "./Products.module.scss";
 import AdminLayout from "@/components/layouts/AdminLayout";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 import Image from "next/image";
 import { Product } from "@/types/product.type";
 import { convertIDR } from "@/utils/currency";
@@ -28,7 +28,7 @@ const ProductsAdminView = (props: PropTypes) => {
     }, [products]);
 
     return (
-        <div>
+        <>
             <AdminLayout>
                 <div className={styles.products}>
                     <h1>Products Management</h1>
@@ -58,8 +58,8 @@ const ProductsAdminView = (props: PropTypes) => {
                         </thead>
                         <tbody>
                             {productsData.map((product, index) => (
-                                <>
-                                    <tr key={product.id}>
+                                <Fragment key={product.id}>
+                                    <tr>
                                         <td rowSpan={Object.keys(product.stock).length}>{index + 1}</td>
                                         <td rowSpan={Object.keys(product.stock).length}>
                                             <Image
@@ -95,16 +95,16 @@ const ProductsAdminView = (props: PropTypes) => {
                                         </td>
                                     </tr>
                                     {product.stock.map((stock: { size: string, qty: number }, index: number) => (
-                                        <>
+                                        <Fragment key={stock.size}>
                                             {index > 0 && (
-                                                < tr key={stock.size}>
+                                                < tr>
                                                     <td>{stock.size}</td>
                                                     <td>{stock.qty}</td>
                                                 </ tr >
                                             )}
-                                        </>
+                                        </Fragment>
                                     ))}
-                                </>
+                                </Fragment>
                             ))}
                         </tbody>
                     </table>
@@ -115,28 +115,25 @@ const ProductsAdminView = (props: PropTypes) => {
                     setProductsData={setProductsData}
                     setAddProduct={setAddProduct}
                     setToaster={setToaster}
-                    session={session}
                 />
             }
-            {Object.keys(updatedProduct).length && (
+            {Object.keys(updatedProduct).length > 0 && (
                 <ModalUpdateProduct
                     updatedProduct={updatedProduct}
                     setUpdatedProduct={setUpdatedProduct}
                     setProductsData={setProductsData}
                     setToaster={setToaster}
-                    session={session}
                 />
             )}
-            {Object.keys(deletedProduct).length && (
+            {Object.keys(deletedProduct).length > 0 && (
                 <ModalDeleteProduct
                     deletedProduct={deletedProduct}
                     setDeletedProduct={setDeletedProduct}
                     setProductsData={setProductsData}
                     setToaster={setToaster}
-                    session={session}
                 />
             )}
-        </div >
+        </ >
     );
 };
 

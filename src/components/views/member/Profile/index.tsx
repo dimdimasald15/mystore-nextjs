@@ -4,22 +4,27 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 import { uploadFile } from "@/lib/firebase/service";
-import { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react";
 import userServices from "@/services/user";
-import { type } from "os";
 import { User } from "@/types/user.type";
 
 type PropTypes = {
-    profile: User | any;
-    setProfile: Dispatch<SetStateAction<{}>>;
-    session: any;
     setToaster: Dispatch<SetStateAction<{}>>;
 };
 
 const ProfileMemberView = (props: PropTypes) => {
-    const { profile, setProfile, session, setToaster } = props;
+    const { setToaster } = props;
     const [isLoading, setIsLoading] = useState("");
     const [uploadedImage, setUploadedImage] = useState<File | any>({});
+    const [profile, setProfile] = useState<User | any>([]);
+    const getProfile = async () => {
+        const { data } = await userServices.getProfile();
+        setProfile(data.data);
+    };
+
+    useEffect(() => {
+        getProfile();
+    }, []);
 
     const handleChangeProfile = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -31,10 +36,7 @@ const ProfileMemberView = (props: PropTypes) => {
             phone: form.phone.value,
         };
 
-        const result = await userServices.updateProfile(
-            data,
-            session.data?.accessToken
-        );
+        const result = await userServices.updateProfile(data);
 
         if (result.status === 200) {
             setIsLoading("");
@@ -60,10 +62,7 @@ const ProfileMemberView = (props: PropTypes) => {
         };
 
         try {
-            const result = await userServices.updateProfile(
-                data,
-                session.data?.accessToken
-            );
+            const result = await userServices.updateProfile(data);
 
             if (result.status === 200) {
                 setIsLoading("");
@@ -99,10 +98,7 @@ const ProfileMemberView = (props: PropTypes) => {
                         const data = {
                             image: newImageURL,
                         };
-                        const result = await userServices.updateProfile(
-                            data,
-                            session.data?.accessToken
-                        );
+                        const result = await userServices.updateProfile(data);
 
                         if (result.status === 200) {
                             setIsLoading("");
@@ -142,8 +138,8 @@ const ProfileMemberView = (props: PropTypes) => {
                                 <Image
                                     src={profile.image}
                                     alt="profile image"
-                                    width={200}
-                                    height={200}
+                                    width={150}
+                                    height={150}
                                     className={styles.profile__main__row__avatar__image}
                                 />
                             ) : (
@@ -195,12 +191,14 @@ const ProfileMemberView = (props: PropTypes) => {
                             </h2>
                             <form onSubmit={handleChangeProfile}>
                                 <Input
+                                    className={styles.profile__main__row__profile__input}
                                     type="text"
                                     label="Fullname"
                                     name="fullname"
                                     defaultValue={profile.fullname}
                                 />
                                 <Input
+                                    className={styles.profile__main__row__profile__input}
                                     type="number"
                                     label="Phone"
                                     name="phone"
@@ -208,6 +206,7 @@ const ProfileMemberView = (props: PropTypes) => {
                                     defaultValue={profile.phone}
                                 />
                                 <Input
+                                    className={styles.profile__main__row__profile__input}
                                     type="email"
                                     label="Email"
                                     name="email"
@@ -215,21 +214,23 @@ const ProfileMemberView = (props: PropTypes) => {
                                     disabled
                                 />
                                 <Input
+                                    className={styles.profile__main__row__profile__input}
                                     type="text"
                                     label="Role"
                                     name="role"
                                     defaultValue={profile.role}
                                     disabled
                                 />
-                                <Button type="submit" variant="primary">
+                                <Button type="submit" className={styles.profile__main__row__profile__button}>
                                     {isLoading === "profile" ? "Loading..." : "Update Profile"}
                                 </Button>
                             </form>
                         </div>
                         <div className={styles.profile__main__row__password}>
-                            <h2>Change Password</h2>
+                            <h2 className={styles.profile__main__row__password__title}>Change Password</h2>
                             <form onSubmit={handleChangePassword}>
                                 <Input
+                                    className={styles.profile__main__row__password__input}
                                     label="Old Password"
                                     name="old-password"
                                     type="password"
@@ -237,6 +238,7 @@ const ProfileMemberView = (props: PropTypes) => {
                                     placeholder="Enter your old password"
                                 />
                                 <Input
+                                    className={styles.profile__main__row__password__input}
                                     label="New Password"
                                     name="new-password"
                                     type="password"

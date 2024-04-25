@@ -1,13 +1,10 @@
 .container {
   display: flex;
   flex-direction: column;
-  margin: 20px 0;
   &__input {
-    padding: 10px;
-    margin-top: 10px;
-    text-indent: 5px;
-    font-size: 12pt;
     border-radius: 5px;
+    padding: 10px;
+    text-indent: 5px;
     border: solid 1.5px #d3d3d3;
     -webkit-transition: 1s;
     transition: 1s;

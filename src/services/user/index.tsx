@@ -1,27 +1,15 @@
 import instance from "@/lib/axios/instance";
 
+const endpoint = "/api/user"
+
 const userServices = {
-    getAllUsers: () => instance.get('/api/user'),
-    updateUser: (id: string, data: any, token: string) => instance.put(`/api/user/${id}`, { data }, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    }),
-    deleteUser: (id: string, token: string) => instance.delete(`/api/user/${id}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    }),
-    getProfile: (token: string) => instance.get(`/api/user/profile`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    }),
-    updateProfile: (data: any, token: string) => instance.put(`/api/user/profile`, { data }, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
+    getAllUsers: () => instance.get(endpoint),
+    updateUser: (id: string, data: any) => instance.put(`${endpoint}/${id}`, { data }),
+    deleteUser: (id: string) => instance.delete(`${endpoint}/${id}`),
+    getProfile: () => instance.get(`${endpoint}/profile`),
+    updateProfile: (data: any) => instance.put(`${endpoint}/profile`, { data }),
+    getCart: () => instance.get(`${endpoint}/cart`),
+    addToCart: (data: any) => instance.put(`${endpoint}/cart`, { data })
 }
 
 export default userServices

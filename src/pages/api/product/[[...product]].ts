@@ -2,6 +2,7 @@ import {
   addData,
   deleteData,
   retrieveData,
+  retrieveDataById,
   updateData,
 } from "@/lib/firebase/service";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -12,7 +13,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const data = await retrieveData("products");
+    const { product }: any = req.query;
+
+    const data =
+      product && product[0]
+        ? await retrieveDataById("products", product[0])
+        : await retrieveData("products");
 
     res.status(200).json({
       status: true,
@@ -69,6 +75,13 @@ export default async function handler(
       process.env.NEXTAUTH_SECRET || "",
       async (err: any, decoded: any) => {
         if (decoded && decoded.role === "admin") {
+          if (data.stock && data.price) {
+            data.price = parseInt(data.price);
+            data.stock.filter((stock: any) => {
+              stock.qty = parseInt(stock.qty);
+            });
+          }
+          
           await updateData("products", product[0], data, (status: boolean) => {
             if (status) {
               res.status(200).json({

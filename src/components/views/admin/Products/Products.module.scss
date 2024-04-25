@@ -29,6 +29,9 @@
       display: flex;
       justify-content: center;
       gap: 10px;
+      &__button {
+        padding: 10px 10px !important;
+      }
     }
   }
 }

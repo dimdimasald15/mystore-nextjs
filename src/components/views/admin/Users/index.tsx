@@ -24,7 +24,7 @@ const UsersAdminView = (props: PropTypes) => {
     }, [users]);
 
     return (
-        <div>
+        <>
             <AdminLayout>
                 <div className={styles.users}>
                     <h1>Users Management</h1>
@@ -71,25 +71,23 @@ const UsersAdminView = (props: PropTypes) => {
                     </table>
                 </div>
             </AdminLayout>
-            {Object.keys(updatedUser).length && (
+            {Object.keys(updatedUser).length > 0 && (
                 <ModalUpdateUser
                     updatedUser={updatedUser}
                     setUpdatedUser={setUpdatedUser}
                     setUsersData={setUsersData}
                     setToaster={setToaster}
-                    session={session}
                 />
             )}
-            {Object.keys(deletedUser).length && (
+            {Object.keys(deletedUser).length > 0 && (
                 <ModalDeleteUser
                     deletedUser={deletedUser}
                     setDeletedUser={setDeletedUser}
                     setUsersData={setUsersData}
                     setToaster={setToaster}
-                    session={session}
                 />
             )}
-        </div>
+        </>
     );
 };
 
